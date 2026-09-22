@@ -63,7 +63,7 @@ if st.session_state.media_info:
     with col1:
         if info.get('thumbnail'):
             # Fixed deprecated use_column_width argument
-            st.image(info['thumbnail'], use_container_width=True)
+            st.image(info['thumbnail'], width="stretch")
             
         dur = info.get('duration', 0)
         dur_str = f"{int(dur // 60)}m {int(dur % 60)}s" if dur else "Live/Unknown"
