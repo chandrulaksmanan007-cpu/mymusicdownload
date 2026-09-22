@@ -5,7 +5,8 @@ def fetch_metadata(url):
     ydl_opts = {
         'skip_download': True,
         'quiet': True,
-        'no_warnings': True
+        'no_warnings': True,
+        'extractor_args': {'youtube': ['player_client=android']}
     }
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
@@ -34,7 +35,8 @@ def download_media(url, format_choice, output_dir, is_audio=False):
             }],
             'quiet': True,
             'restrictfilenames': True,
-            'no_warnings': True
+            'no_warnings': True,
+            'extractor_args': {'youtube': ['player_client=android']}
         }
     else:
         if format_choice == "Best Available":
@@ -49,7 +51,8 @@ def download_media(url, format_choice, output_dir, is_audio=False):
             'merge_output_format': 'mp4',
             'quiet': True,
             'restrictfilenames': True,
-            'no_warnings': True
+            'no_warnings': True,
+            'extractor_args': {'youtube': ['player_client=android']}
         }
         
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
