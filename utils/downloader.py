@@ -1,5 +1,19 @@
 import yt_dlp
 import os
+import tempfile
+import streamlit as st
+
+def _apply_cookies(ydl_opts):
+    try:
+        cookies = st.secrets.get("youtube_cookies")
+        if cookies:
+            cookie_path = os.path.join(tempfile.gettempdir(), "yt_cookies.txt")
+            with open(cookie_path, "w") as f:
+                f.write(cookies)
+            ydl_opts['cookiefile'] = cookie_path
+    except Exception:
+        pass
+
 
 def fetch_metadata(url):
     ydl_opts = {
@@ -8,6 +22,7 @@ def fetch_metadata(url):
         'no_warnings': True,
         'extractor_args': {'youtube': ['player_client=android']}
     }
+    _apply_cookies(ydl_opts)
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(url, download=False)
@@ -55,6 +70,7 @@ def download_media(url, format_choice, output_dir, is_audio=False):
             'extractor_args': {'youtube': ['player_client=android']}
         }
         
+    _apply_cookies(ydl_opts)
     with yt_dlp.YoutubeDL(ydl_opts) as ydl:
         try:
             info = ydl.extract_info(url, download=True)
